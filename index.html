@@ -4,26 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grade</title>
-
     <!-- Cấu hình PWA Manifest -->
     <link rel="manifest" href="manifest.json">
-
     <!-- Cấu hình Icon cho PWA -->
     <link rel="icon" type="image/png" sizes="192x192" href="https://cdn.phototourl.com/free/2026-09-01-28ff51b7-99dd-468d-9229-37840d0883be.png">
     <link rel="icon" type="image/png" sizes="512x512" href="https://cdn.phototourl.com/free/2026-09-01-cdfe5afb-319f-4b49-8b42-fc6bd4e9585c.png">
     <link rel="shortcut icon" href="https://cdn.phototourl.com/free/2026-09-01-cdfe5afb-319f-4b49-8b42-fc6bd4e9585c.png">
-
     <!-- Cấu hình riêng cho iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Grade">
     <link rel="apple-touch-icon" href="https://cdn.phototourl.com/free/2026-09-01-28ff51b7-99dd-468d-9229-37840d0883be.png">
     <link rel="apple-touch-icon" sizes="512x512" href="https://cdn.phototourl.com/free/2026-09-01-cdfe5afb-319f-4b49-8b42-fc6bd4e9585c.png">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -72,17 +67,6 @@
         .col-mon { width: 140px; }
         .col-diem { width: 65px; }
         .col-dtb { width: 85px; }
-
-        .dark body { background:#0f172a; color:#e2e8f0; }
-        .dark .bg-white { background-color:#1e293b !important; }
-        .dark .bg-sky-50, .dark .bg-sky-50\/40 { background-color:#172033 !important; }
-        .dark .text-slate-800, .dark .text-slate-700, .dark .text-slate-500 { color:#cbd5e1 !important; }
-        .dark .border-sky-200, .dark .border-sky-300, .dark .border-sky-400 { border-color:#334155 !important; }
-        .dark .score-input, .dark .eval-select { background:#0f172a; color:#e2e8f0; border-color:#475569; }
-        .dark .score-input:hover, .dark .score-input:focus, .dark .eval-select:hover, .dark .eval-select:focus { background:#111827; }
-        .dark .bg-sky-100 { background-color:#1e3a52 !important; }
-        .dark .bg-sky-200 { background-color:#164e63 !important; }
-        .dark .text-sky-900, .dark .text-sky-950 { color:#bae6fd !important; }
         .status-dot { width:8px; height:8px; border-radius:50%; display:inline-block; }
         .status-saved { background:#10b981; }
         .status-saving { background:#f59e0b; }
@@ -99,28 +83,12 @@
                 <h1 class="text-xl font-bold tracking-wide">Grade</h1>
             </div>
             <div class="flex items-center gap-2">
-                <button id="btn-theme" type="button" title="Đổi giao diện" class="bg-sky-600 hover:bg-sky-700 text-white border border-sky-400 text-xs px-3 py-1.5 rounded font-medium transition-colors shadow-sm cursor-pointer">
-                    <i id="theme-icon" class="fa-solid fa-moon"></i> <span class="label">Giao diện</span>
-                </button>
-                <div class="relative">
-                    <button id="btn-export-menu" class="bg-sky-600 hover:bg-sky-700 text-white border border-sky-400 text-xs px-3 py-1.5 rounded font-medium transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer">
-                        <i class="fa-solid fa-camera"></i> Xuất ảnh <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                    </button>
-                    <div id="export-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 border border-sky-200 z-30 text-slate-700 text-xs font-semibold">
-                        <button type="button" class="w-full text-left px-4 py-2 hover:bg-sky-50 flex items-center gap-2 cursor-pointer" data-export="hk1"><i class="fa-solid fa-image text-sky-500"></i> Bảng Học Kỳ I</button>
-                        <button type="button" class="w-full text-left px-4 py-2 hover:bg-sky-50 flex items-center gap-2 cursor-pointer" data-export="hk2"><i class="fa-solid fa-image text-sky-500"></i> Bảng Học Kỳ II</button>
-                        <button type="button" class="w-full text-left px-4 py-2 hover:bg-sky-50 flex items-center gap-2 cursor-pointer" data-export="cn"><i class="fa-solid fa-image text-sky-500"></i> Bảng Cả Năm</button>
-                        <div class="border-t border-sky-100 my-1"></div>
-                        <button type="button" class="w-full text-left px-4 py-2 hover:bg-sky-50 flex items-center gap-2 text-sky-700 cursor-pointer" data-export="all"><i class="fa-solid fa-images text-sky-600"></i> Toàn bộ (Cả 3 bảng)</button>
-                    </div>
-                </div>
                 <button id="btn-reset" class="bg-sky-100 hover:bg-sky-200 text-sky-700 border border-sky-200 text-xs px-3 py-1.5 rounded font-medium transition-colors flex items-center gap-1 shadow-sm cursor-pointer">
                     <i class="fa-solid fa-rotate-right"></i> Đặt lại
                 </button>
             </div>
         </div>
     </header>
-
     <main class="max-w-6xl mx-auto px-4 mt-6 space-y-6">
         <!-- THANH CHỌN VÀ QUẢN LÝ NĂM HỌC -->
         <section class="bg-white rounded-lg border border-sky-300 p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
@@ -140,7 +108,6 @@
                 </button>
             </div>
         </section>
-
         <!-- THÔNG TIN HỌC SINH -->
         <section class="bg-white rounded-lg border border-sky-300 p-4 shadow-sm">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
@@ -156,7 +123,6 @@
                 <input id="school-year" type="text" placeholder="Năm học (VD: 2026–2027)" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md outline-none focus:ring-2 focus:ring-sky-300 bg-slate-50">
             </div>
         </section>
-
         <!-- THÔNG TIN TỔNG QUAN XẾP LOẠI -->
         <div class="bg-white rounded-lg border border-sky-300 p-4 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-sky-50/80 border border-sky-200 p-3 rounded-md">
@@ -174,7 +140,6 @@
                 </div>
             </div>
         </div>
-
         <!-- BIỂU ĐỒ PHÂN TÍCH ĐIỂM SỐ -->
         <div class="bg-white rounded-lg border border-sky-300 p-4 shadow-sm">
             <h2 class="text-base font-bold text-sky-900 mb-4 flex items-center gap-2">
@@ -190,7 +155,7 @@
             </div>
         </div>
         
-        <!-- KHU VỰC CẦN XUẤT ẢNH -->
+        <!-- KHU VỰC BẢNG ĐIỂM -->
         <div id="export-container" class="space-y-6 bg-sky-50 p-1 rounded-lg">
             <!-- HỌC KỲ I -->
             <div id="section-hk1" class="bg-white rounded-lg border border-sky-300 shadow-sm overflow-hidden">
@@ -265,7 +230,6 @@
             </div>
         </div>
     </main>
-
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCZOeNd4zZXRaeoN7RAF7HoAgWD4BTRA",
@@ -284,7 +248,6 @@
         } catch (e) {
             console.log("Firebase lỗi khởi tạo, dữ liệu sẽ lưu tạm trên máy.");
         }
-
         const subjectList = [
             { id: 1, name: 'Toán', type: 'score', maxTx: 4 },
             { id: 2, name: 'Ngữ văn', type: 'score', maxTx: 4 },
@@ -299,7 +262,6 @@
             { id: 11, name: 'HĐTN', type: 'eval' },
             { id: 12, name: 'GDĐP', type: 'eval' }
         ];
-
         function getEmptyScores() {
             return {
                 subjects: subjectList.map(s => ({
@@ -310,7 +272,6 @@
                 }))
             };
         }
-
         const STORAGE_KEY = 'grade_multi_years_v5';
         let multiYearData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
             "Lớp 6 (2025-2026)": {
@@ -318,12 +279,10 @@
                 data: getEmptyScores()
             }
         };
-
         let currentYearKey = Object.keys(multiYearData)[0];
         let chartBarInstance = null;
         let chartPieInstance = null;
         let isRemoteUpdate = false;
-
         function migrateData(dataObj) {
             if (!dataObj || !dataObj.subjects) return getEmptyScores();
             subjectList.forEach(s => {
@@ -344,11 +303,9 @@
             dataObj.subjects.sort((a, b) => a.id - b.id);
             return dataObj;
         }
-
         Object.keys(multiYearData).forEach(k => {
             multiYearData[k].data = migrateData(multiYearData[k].data);
         });
-
         if (db) {
             db.ref('grade_multi_data_v5').on('value', (snapshot) => {
                 const val = snapshot.val();
@@ -368,7 +325,6 @@
                 }
             });
         }
-
         function saveData() {
             setSaveStatus('saving', 'Đang lưu...');
             localStorage.setItem(STORAGE_KEY, JSON.stringify(multiYearData));
@@ -378,7 +334,6 @@
                 setSaveStatus('saved', 'Đã lưu');
             }
         }
-
         function setSaveStatus(type, text) {
             const el = document.getElementById('save-status');
             if (!el) return;
@@ -386,7 +341,6 @@
             dot.className = 'status-dot ' + (type === 'saving' ? 'status-saving' : type === 'error' ? 'status-error' : 'status-saved');
             el.lastChild.textContent = text;
         }
-
         function updateYearDropdown() {
             const select = document.getElementById('select-year');
             select.innerHTML = '';
@@ -398,7 +352,6 @@
                 select.appendChild(opt);
             });
         }
-
         function loadCurrentYearData() {
             if (!multiYearData[currentYearKey]) {
                 multiYearData[currentYearKey] = {
@@ -408,20 +361,16 @@
             }
             const currentObj = multiYearData[currentYearKey];
             currentObj.data = migrateData(currentObj.data);
-
             document.getElementById('student-name').value = currentObj.profile.name || '';
             document.getElementById('student-class').value = currentObj.profile.className || '';
             document.getElementById('school-year').value = currentObj.profile.schoolYear || '';
-
             renderTables();
             updateGlobalCalculationsAndCharts();
         }
-
         document.getElementById('select-year').addEventListener('change', function() {
             currentYearKey = this.value;
             loadCurrentYearData();
         });
-
         document.getElementById('btn-add-year').addEventListener('click', () => {
             const newName = prompt("Nhập tên năm học hoặc tên lớp mới (Ví dụ: Lớp 7 (2026-2027)):");
             if (!newName || !newName.trim()) return;
@@ -440,7 +389,6 @@
             loadCurrentYearData();
             saveData();
         });
-
         document.getElementById('btn-delete-year').addEventListener('click', () => {
             const keys = Object.keys(multiYearData);
             if (keys.length <= 1) {
@@ -455,7 +403,6 @@
                 saveData();
             }
         });
-
         function saveProfile() {
             if (!multiYearData[currentYearKey]) return;
             multiYearData[currentYearKey].profile = {
@@ -465,24 +412,9 @@
             };
             saveData();
         }
-
         document.querySelectorAll('#student-name, #student-class, #school-year').forEach(el => {
             el.addEventListener('input', () => { saveProfile(); setSaveStatus('saved', 'Đã lưu'); });
         });
-
-        const themeKey = 'grade_theme_v5';
-        function applyTheme(theme) {
-            document.documentElement.classList.toggle('dark', theme === 'dark');
-            const icon = document.getElementById('theme-icon');
-            if (icon) icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-            localStorage.setItem(themeKey, theme);
-        }
-
-        document.getElementById('btn-theme').addEventListener('click', () => {
-            applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark');
-        });
-        applyTheme(localStorage.getItem(themeKey) || 'light');
-
         function calcAverage(tx1, tx2, tx3, tx4, gk, ck, maxTx) {
             let sum = 0, coef = 0;
             const txList = maxTx === 2 ? [tx1, tx2] : [tx1, tx2, tx3, tx4];
@@ -504,7 +436,6 @@
             let raw = sum / coef;
             return Math.round(raw * 10) / 10;
         }
-
         function evaluateHocLuc(listScores, listEvals) {
             if (listScores.length === 0) return '---';
             const avg = listScores.reduce((a, b) => a + b, 0) / listScores.length;
@@ -515,7 +446,6 @@
             if (avg >= 5.0 && minScore >= 3.5 && listEvals.filter(e => e === 'CĐ').length <= 1) return 'Đạt';
             return 'Chưa đạt';
         }
-
         // Render khung HTML tĩnh và tính toán sẵn ĐTB ban đầu
         function renderTables() {
             const currentData = multiYearData[currentYearKey].data;
@@ -525,7 +455,6 @@
             if (!tbody1 || !tbody2 || !tbodyCN) return;
             
             tbody1.innerHTML = ''; tbody2.innerHTML = ''; tbodyCN.innerHTML = '';
-
             currentData.subjects.forEach((sub, idx) => {
                 const maxTx = sub.maxTx || 4;
                 
@@ -644,21 +573,18 @@
                 tbodyCN.appendChild(trCN);
             });
         }
-
         // Xử lý sự kiện input tối ưu hóa (Tính ngay lập tức cho dòng đó và Debounce cho toàn cục)
         let updateTimer = null;
         
         document.body.addEventListener('input', function(e) {
             const input = e.target;
             if (!input.classList.contains('score-input') && !input.classList.contains('eval-select')) return;
-
             const row = parseInt(input.dataset.row);
             const col = parseInt(input.dataset.col);
             const hk = input.dataset.hk;
             const currentData = multiYearData[currentYearKey].data;
             const sub = currentData.subjects[row];
             if (!sub) return;
-
             let val = input.value;
             let keyName = '';
             if (col === 0) keyName = 'tx1_' + hk;
@@ -667,13 +593,10 @@
             else if (col === 3) keyName = 'tx4_' + hk;
             else if (col === 4) keyName = 'gk' + hk;
             else if (col === 5) keyName = 'ck' + hk;
-
             if (sub.type === 'eval' && col === 0) {
                 sub['eval' + hk] = val;
             }
-
             sub[keyName] = val;
-
             if (input.classList.contains('score-input')) {
                 if (val.trim() !== '' && val !== '.') {
                     const num = parseFloat(val);
@@ -686,10 +609,8 @@
                     input.classList.remove('invalid');
                 }
             }
-
             // Tính ngay lập tức điểm trung bình của riêng hàng đang gõ để hiển thị trực quan
             updateSingleRowCalculation(row, hk);
-
             // Dùng Debounce ngầm để cập nhật biểu đồ, điểm cả năm và lưu Database sau khi ngừng gõ 400ms
             clearTimeout(updateTimer);
             updateTimer = setTimeout(() => {
@@ -697,13 +618,11 @@
                 saveData();
             }, 400);
         });
-
         // Hàm tính toán riêng cho 1 dòng khi đang gõ
         function updateSingleRowCalculation(rowIdx, hk) {
             const currentData = multiYearData[currentYearKey].data;
             const sub = currentData.subjects[rowIdx];
             if (!sub) return;
-
             if (sub.type === 'score') {
                 const maxTx = sub.maxTx || 4;
                 const dtb = calcAverage(sub['tx1_' + hk], sub['tx2_' + hk], sub['tx3_' + hk], sub['tx4_' + hk], sub['gk' + hk], sub['ck' + hk], maxTx);
@@ -719,7 +638,6 @@
                 }
             }
         }
-
         // Hàm tổng kết toàn bộ (chạy ngầm để cập nhật điểm cả năm, xếp loại và biểu đồ)
         function updateGlobalCalculationsAndCharts() {
             const currentData = multiYearData[currentYearKey].data;
@@ -728,23 +646,18 @@
             let chartLabels = [];
             let chartDataHK1 = [];
             let chartDataHK2 = [];
-
             currentData.subjects.forEach((sub, idx) => {
                 const maxTx = sub.maxTx || 4;
                 const dtb1 = sub.type === 'score' ? calcAverage(sub.tx1_1, sub.tx2_1, sub.tx3_1, sub.tx4_1, sub.gk1, sub.ck1, maxTx) : null;
                 const dtb2 = sub.type === 'score' ? calcAverage(sub.tx1_2, sub.tx2_2, sub.tx3_2, sub.tx4_2, sub.gk2, sub.ck2, maxTx) : null;
-
                 // Đồng bộ cập nhật lại các ô ĐTB trong bảng HK1 và HK2
                 if (sub.type === 'score') {
                     const cell1 = document.getElementById(`dtb-1-${idx}`);
                     if (cell1) cell1.innerText = dtb1 !== null ? dtb1.toFixed(1) : '';
-
                     const cell2 = document.getElementById(`dtb-2-${idx}`);
                     if (cell2) cell2.innerText = dtb2 !== null ? dtb2.toFixed(1) : '';
-
                     if (dtb1 !== null) listDTB1.push(dtb1);
                     if (dtb2 !== null) listDTB2.push(dtb2);
-
                     let dtbCN = null;
                     if (dtb1 !== null && dtb2 !== null) {
                         dtbCN = Math.round(((dtb1 + dtb2 * 2) / 3) * 10) / 10;
@@ -754,16 +667,12 @@
                         dtbCN = dtb2;
                     }
                     if (dtbCN !== null) listCN.push(dtbCN);
-
                     const cn1 = document.getElementById(`cn-dtb1-${idx}`);
                     if (cn1) cn1.innerText = dtb1 !== null ? dtb1.toFixed(1) : '-';
-
                     const cn2 = document.getElementById(`cn-dtb2-${idx}`);
                     if (cn2) cn2.innerText = dtb2 !== null ? dtb2.toFixed(1) : '-';
-
                     const cnTotal = document.getElementById(`dtb-cn-${idx}`);
                     if (cnTotal) cnTotal.innerText = dtbCN !== null ? dtbCN.toFixed(1) : '-';
-
                     chartLabels.push(sub.name);
                     chartDataHK1.push(dtb1 !== null ? dtb1 : 0);
                     chartDataHK2.push(dtb2 !== null ? dtb2 : 0);
@@ -775,18 +684,15 @@
                     if (eval1Cell) eval1Cell.innerText = sub.eval1 || 'Đ';
                     const eval2Cell = document.getElementById(`eval-dtb-2-${idx}`);
                     if (eval2Cell) eval2Cell.innerText = sub.eval2 || 'Đ';
-
                     const cnEval1 = document.getElementById(`cn-eval1-${idx}`);
                     if (cnEval1) cnEval1.innerText = sub.eval1 || 'Đ';
                     const cnEval2 = document.getElementById(`cn-eval2-${idx}`);
                     if (cnEval2) cnEval2.innerText = sub.eval2 || 'Đ';
                 }
             });
-
             const avg1 = listDTB1.length ? (Math.round((listDTB1.reduce((a, b) => a + b, 0) / listDTB1.length) * 10) / 10).toFixed(1) : '---';
             const avg2 = listDTB2.length ? (Math.round((listDTB2.reduce((a, b) => a + b, 0) / listDTB2.length) * 10) / 10).toFixed(1) : '---';
             const avgCNTotal = listCN.length ? (Math.round((listCN.reduce((a, b) => a + b, 0) / listCN.length) * 10) / 10).toFixed(1) : '---';
-
             document.getElementById('label-dtb-hk1').innerText = 'ĐTB HKI: ' + avg1;
             document.getElementById('label-dtb-hk2').innerText = 'ĐTB HKII: ' + avg2;
             document.getElementById('label-dtb-cn-total').innerText = 'ĐTB cả năm: ' + avgCNTotal;
@@ -795,10 +701,8 @@
             document.getElementById('val-dtb-hk2').innerText = avg2;
             document.getElementById('val-hl-hk1').innerText = evaluateHocLuc(listDTB1, listEval1);
             document.getElementById('val-hl-hk2').innerText = evaluateHocLuc(listDTB2, listEval2);
-
             renderCharts(chartLabels, chartDataHK1, chartDataHK2, listCN);
         }
-
         document.body.addEventListener('focusin', function(e) {
             const input = e.target;
             if (input.classList.contains('score-input') || input.classList.contains('eval-select')) {
@@ -806,7 +710,6 @@
                 input.closest('tr').classList.add('row-highlight');
             }
         });
-
         document.body.addEventListener('focusout', function(e) {
             const input = e.target;
             if (input.classList.contains('score-input') || input.classList.contains('eval-select')) {
@@ -814,16 +717,13 @@
                 if (tr) tr.classList.remove('row-highlight');
             }
         });
-
         document.body.addEventListener('keydown', function(e) {
             const input = e.target;
             if (!input.classList.contains('score-input') && !input.classList.contains('eval-select')) return;
-
             const row = parseInt(input.dataset.row);
             const col = parseInt(input.dataset.col);
             const hk = input.dataset.hk;
             const currentData = multiYearData[currentYearKey].data;
-
             let targetRow = row;
             let targetCol = col;
             if (e.key === 'ArrowUp') targetRow = Math.max(0, row - 1);
@@ -839,64 +739,16 @@
                 if (e.key === 'ArrowLeft') targetCol = 1;
                 else targetCol = 4;
             }
-
             const targetEl = document.querySelector(`[data-hk="${hk}"][data-row="${targetRow}"][data-col="${targetCol}"]`);
             if (targetEl) {
                 targetEl.focus();
                 if (targetEl.select) targetEl.select();
             }
         });
-
-        const exportMenuBtn = document.getElementById('btn-export-menu');
-        const exportDropdown = document.getElementById('export-dropdown');
-
-        if (exportMenuBtn && exportDropdown) {
-            exportMenuBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                exportDropdown.classList.toggle('hidden');
-            });
-        }
-
-        document.addEventListener('click', () => {
-            if (exportDropdown) exportDropdown.classList.add('hidden');
-        });
-
-        document.querySelectorAll('#export-dropdown button').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const type = this.dataset.export;
-                let targetEl = null;
-                let fileName = 'bang-diem';
-
-                if (type === 'hk1') {
-                    targetEl = document.getElementById('section-hk1');
-                    fileName = `bang-diem-hoc-ky-1-${currentYearKey.replace(/\s+/g, '_')}.png`;
-                } else if (type === 'hk2') {
-                    targetEl = document.getElementById('section-hk2');
-                    fileName = `bang-diem-hoc-ky-2-${currentYearKey.replace(/\s+/g, '_')}.png`;
-                } else if (type === 'cn') {
-                    targetEl = document.getElementById('section-cn');
-                    fileName = `bang-diem-ca-nam-${currentYearKey.replace(/\s+/g, '_')}.png`;
-                } else if (type === 'all') {
-                    targetEl = document.getElementById('export-container');
-                    fileName = `bang-diem-toan-bo-${currentYearKey.replace(/\s+/g, '_')}.png`;
-                }
-
-                if (targetEl) {
-                    html2canvas(targetEl, { scale: 2, backgroundColor: '#ffffff' }).then(canvas => {
-                        const link = document.createElement('a');
-                        link.download = fileName;
-                        link.href = canvas.toDataURL('image/png');
-                        link.click();
-                    });
-                }
-            });
-        });
-
         function renderCharts(labels, hk1Data, hk2Data, cnList) {
             const canvasScores = document.getElementById('chart-scores');
             const canvasPie = document.getElementById('chart-pie');
             if (!canvasScores || !canvasPie) return;
-
             const ctxBar = canvasScores.getContext('2d');
             if (chartBarInstance) chartBarInstance.destroy();
             chartBarInstance = new Chart(ctxBar, {
@@ -915,7 +767,6 @@
                     plugins: { legend: { position: 'top' } }
                 }
             });
-
             let gioii = 0, kha = 0, tb = 0, yeu = 0;
             cnList.forEach(v => {
                 if (v >= 8.0) gioii++;
@@ -943,7 +794,6 @@
                 }
             });
         }
-
         const resetBtn = document.getElementById('btn-reset');
         if (resetBtn) {
             resetBtn.addEventListener('click', () => {
@@ -954,11 +804,9 @@
                 }
             });
         }
-
         updateYearDropdown();
         loadCurrentYearData();
     </script>
-
     <!-- Đăng ký Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
