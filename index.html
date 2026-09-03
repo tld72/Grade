@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade</title>
+    <title>Grade - Quản Lý Điểm Nhiều Năm Học</title>
 
     <!-- Cấu hình PWA Manifest -->
     <link rel="manifest" href="manifest.json">
@@ -516,7 +516,7 @@
             return 'Chưa đạt';
         }
 
-        // Render khung HTML tĩnh 1 lần duy nhất cho toàn bộ bảng
+        // Render khung HTML tĩnh và tính toán sẵn ĐTB ban đầu
         function renderTables() {
             const currentData = multiYearData[currentYearKey].data;
             const tbody1 = document.getElementById('tbody-hk1');
@@ -528,6 +528,10 @@
 
             currentData.subjects.forEach((sub, idx) => {
                 const maxTx = sub.maxTx || 4;
+                
+                // Tính toán ĐTB sẵn khi render
+                const dtb1 = sub.type === 'score' ? calcAverage(sub.tx1_1, sub.tx2_1, sub.tx3_1, sub.tx4_1, sub.gk1, sub.ck1, maxTx) : null;
+                const dtb2 = sub.type === 'score' ? calcAverage(sub.tx1_2, sub.tx2_2, sub.tx3_2, sub.tx4_2, sub.gk2, sub.ck2, maxTx) : null;
                 
                 // Bảng HKI
                 const tr1 = document.createElement('tr');
@@ -543,7 +547,7 @@
                             <td class="py-1 col-diem border-r border-sky-200 bg-slate-100 text-slate-400 select-none">-</td>
                             <td class="py-1 col-diem border-r border-sky-200"><input type="text" value="${sub.gk1 || ''}" data-hk="1" data-row="${idx}" data-col="4" class="score-input"></td>
                             <td class="py-1 col-diem border-r border-sky-200"><input type="text" value="${sub.ck1 || ''}" data-hk="1" data-row="${idx}" data-col="5" class="score-input"></td>
-                            <td class="py-2 col-dtb font-bold text-sky-700 bg-sky-50" id="dtb-1-${idx}"></td>
+                            <td class="py-2 col-dtb font-bold text-sky-700 bg-sky-50" id="dtb-1-${idx}">${dtb1 !== null ? dtb1.toFixed(1) : ''}</td>
                         `;
                     } else {
                         tr1.innerHTML = `
@@ -555,7 +559,7 @@
                             <td class="py-1 col-diem border-r border-sky-200"><input type="text" value="${sub.tx4_1 || ''}" data-hk="1" data-row="${idx}" data-col="3" class="score-input"></td>
                             <td class="py-1 col-diem border-r border-sky-200"><input type="text" value="${sub.gk1 || ''}" data-hk="1" data-row="${idx}" data-col="4" class="score-input"></td>
                             <td class="py-1 col-diem border-r border-sky-200"><input type="text" value="${sub.ck1 || ''}" data-hk="1" data-row="${idx}" data-col="5" class="score-input"></td>
-                            <td class="py-2 col-dtb font-bold text-sky-700 bg-sky-50" id="dtb-1-${idx}"></td>
+                            <td class="py-2 col-dtb font-bold text-sky-700 bg-sky-50" id="dtb-1-${idx}">${dtb1 !== null ? dtb1.toFixed(1) : ''}</td>
                         `;
                     }
                 } else {
@@ -587,7 +591,7 @@
                             <td class="py-1 col-diem border-r border-sky-200 bg-slate-100 text-slate-400 select-none">-</td>
                             <td class="py-1 col-diem border-r border-sky-200"><input type="text" value="${sub.gk2 || ''}" data-hk="2" data-row="${idx}" data-col="4" class="score-input"></td>
                             <td class="py-1 col-diem border-r border-sky-200"><input type="text" value="${sub.ck2 || ''}" data-hk="2" data-row="${idx}" data-col="5" class="score-input"></td>
-                            <td class="py-2 col-dtb font-bold text-sky-700 bg-sky-50" id="dtb-2-${idx}"></td>
+                            <td class="py-2 col-dtb font-bold text-sky-700 bg-sky-50" id="dtb-2-${idx}">${dtb2 !== null ? dtb2.toFixed(1) : ''}</td>
                         `;
                     } else {
                         tr2.innerHTML = `
@@ -599,7 +603,7 @@
                             <td class="py-1 col-diem border-r border-sky-200"><input type="text" value="${sub.tx4_2 || ''}" data-hk="2" data-row="${idx}" data-col="3" class="score-input"></td>
                             <td class="py-1 col-diem border-r border-sky-200"><input type="text" value="${sub.gk2 || ''}" data-hk="2" data-row="${idx}" data-col="4" class="score-input"></td>
                             <td class="py-1 col-diem border-r border-sky-200"><input type="text" value="${sub.ck2 || ''}" data-hk="2" data-row="${idx}" data-col="5" class="score-input"></td>
-                            <td class="py-2 col-dtb font-bold text-sky-700 bg-sky-50" id="dtb-2-${idx}"></td>
+                            <td class="py-2 col-dtb font-bold text-sky-700 bg-sky-50" id="dtb-2-${idx}">${dtb2 !== null ? dtb2.toFixed(1) : ''}</td>
                         `;
                     }
                 } else {
@@ -641,7 +645,7 @@
             });
         }
 
-        // Xử lý sự kiện input tối ưu hóa (Chống mất focus bàn phím ảo triệt để)
+        // Xử lý sự kiện input tối ưu hóa (Tính ngay lập tức cho dòng đó và Debounce cho toàn cục)
         let updateTimer = null;
         
         document.body.addEventListener('input', function(e) {
@@ -683,10 +687,10 @@
                 }
             }
 
-            // Chỉ cập nhật điểm trung bình của riêng hàng đang gõ ngay lập tức
+            // Tính ngay lập tức điểm trung bình của riêng hàng đang gõ để hiển thị trực quan
             updateSingleRowCalculation(row, hk);
 
-            // Dùng Debounce: Đợi người dùng dừng gõ 400ms mới tính toán toàn bộ giao diện và đồng bộ dữ liệu ngầm
+            // Dùng Debounce ngầm để cập nhật biểu đồ, điểm cả năm và lưu Database sau khi ngừng gõ 400ms
             clearTimeout(updateTimer);
             updateTimer = setTimeout(() => {
                 updateGlobalCalculationsAndCharts();
@@ -694,22 +698,29 @@
             }, 400);
         });
 
-        // Hàm tính toán riêng cho 1 dòng để không gây gián đoạn bàn phím
+        // Hàm tính toán riêng cho 1 dòng khi đang gõ
         function updateSingleRowCalculation(rowIdx, hk) {
             const currentData = multiYearData[currentYearKey].data;
             const sub = currentData.subjects[rowIdx];
-            if (!sub || sub.type !== 'score') return;
+            if (!sub) return;
 
-            const maxTx = sub.maxTx || 4;
-            const dtb = calcAverage(sub['tx1_' + hk], sub['tx2_' + hk], sub['tx3_' + hk], sub['tx4_' + hk], sub['gk' + hk], sub['ck' + hk], maxTx);
-            
-            const cell = document.getElementById(`dtb-${hk}-${rowIdx}`);
-            if (cell) {
-                cell.innerText = dtb !== null ? dtb.toFixed(1) : '';
+            if (sub.type === 'score') {
+                const maxTx = sub.maxTx || 4;
+                const dtb = calcAverage(sub['tx1_' + hk], sub['tx2_' + hk], sub['tx3_' + hk], sub['tx4_' + hk], sub['gk' + hk], sub['ck' + hk], maxTx);
+                
+                const cell = document.getElementById(`dtb-${hk}-${rowIdx}`);
+                if (cell) {
+                    cell.innerText = dtb !== null ? dtb.toFixed(1) : '';
+                }
+            } else {
+                const evalCell = document.getElementById(`eval-dtb-${hk}-${rowIdx}`);
+                if (evalCell) {
+                    evalCell.innerText = (hk === '1' ? sub.eval1 : sub.eval2) || 'Đ';
+                }
             }
         }
 
-        // Hàm tổng kết toàn bộ chạy ngầm sau khi dừng gõ
+        // Hàm tổng kết toàn bộ (chạy ngầm để cập nhật điểm cả năm, xếp loại và biểu đồ)
         function updateGlobalCalculationsAndCharts() {
             const currentData = multiYearData[currentYearKey].data;
             let listDTB1 = [], listDTB2 = [], listCN = [];
@@ -723,7 +734,14 @@
                 const dtb1 = sub.type === 'score' ? calcAverage(sub.tx1_1, sub.tx2_1, sub.tx3_1, sub.tx4_1, sub.gk1, sub.ck1, maxTx) : null;
                 const dtb2 = sub.type === 'score' ? calcAverage(sub.tx1_2, sub.tx2_2, sub.tx3_2, sub.tx4_2, sub.gk2, sub.ck2, maxTx) : null;
 
+                // Đồng bộ cập nhật lại các ô ĐTB trong bảng HK1 và HK2
                 if (sub.type === 'score') {
+                    const cell1 = document.getElementById(`dtb-1-${idx}`);
+                    if (cell1) cell1.innerText = dtb1 !== null ? dtb1.toFixed(1) : '';
+
+                    const cell2 = document.getElementById(`dtb-2-${idx}`);
+                    if (cell2) cell2.innerText = dtb2 !== null ? dtb2.toFixed(1) : '';
+
                     if (dtb1 !== null) listDTB1.push(dtb1);
                     if (dtb2 !== null) listDTB2.push(dtb2);
 
