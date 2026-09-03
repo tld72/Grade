@@ -1,0 +1,20 @@
+{
+  "name": "Grade - Quản Lý Điểm",
+  "short_name": "Grade",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f0f9ff",
+  "theme_color": "#0ea5e9",
+  "icons": [
+    {
+      "src": "https://cdn.phototourl.com/free/2026-09-01-28ff51b7-99dd-468d-9229-37840d0883be.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.phototourl.com/free/2026-09-01-cdfe5afb-319f-4b49-8b42-fc6bd4e9585c.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
